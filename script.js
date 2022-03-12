@@ -27,33 +27,38 @@ const img = document.querySelector('#currImg');
 let currentSlide = 0;
 
 const allImg = document.querySelectorAll('.img');
-
 allImg[0].classList.add('active');
 
-btnRight.addEventListener('click', function () {
+// toggle class
+const toggoleClass = function () {
+  allImg.forEach((el) => {
+    el.classList.remove('active');
+  });
+
+  allImg[currentSlide].classList.add('active');
+};
+
+const nextSlide = function () {
   if (currentSlide === allImg.length - 1) {
     currentSlide = 0;
   } else {
     currentSlide++;
   }
 
-  allImg.forEach((el) => {
-    el.classList.remove('active');
-  });
+  toggoleClass();
+};
 
-  allImg[currentSlide].classList.add('active');
-});
-
-btnLeft.addEventListener('click', function () {
+const prevSlide = function () {
   if (currentSlide === 0) {
     currentSlide = allImg.length - 1;
   } else {
     currentSlide--;
   }
 
-  allImg.forEach((el) => {
-    el.classList.remove('active');
-  });
+  toggoleClass();
+};
 
-  allImg[currentSlide].classList.add('active');
-});
+setInterval(nextSlide, 4000);
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
