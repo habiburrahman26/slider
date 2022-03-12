@@ -3,6 +3,7 @@
 const btnLeft = document.querySelector('.btn-left');
 const btnRight = document.querySelector('.btn-right');
 const img = document.querySelector('#currImg');
+const dots = document.querySelector('.dots');
 
 // const imgs = [
 //   'img/avenue-2215317_1280.jpg',
@@ -29,6 +30,28 @@ let currentSlide = 0;
 const allImg = document.querySelectorAll('.img');
 allImg[0].classList.add('active');
 
+// create dots
+const createDots = function () {
+  allImg.forEach((_, i) => {
+    const html = `
+      <button class="dots__dot" data-slide="${i}">
+      `;
+    dots.insertAdjacentHTML('beforeend', html);
+  });
+};
+createDots();
+
+const activeDots = function (slide) {
+  document
+    .querySelectorAll('.dots__dot')
+    .forEach((dot) => dot.classList.remove('dots__dot--active'));
+
+  const l = document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add('dots__dot--active');
+};
+activeDots(0);
+
 // toggle class
 const toggoleClass = function () {
   allImg.forEach((el) => {
@@ -46,6 +69,7 @@ const nextSlide = function () {
   }
 
   toggoleClass();
+  activeDots(currentSlide);
 };
 
 const prevSlide = function () {
@@ -56,6 +80,7 @@ const prevSlide = function () {
   }
 
   toggoleClass();
+  activeDots(currentSlide);
 };
 
 setInterval(nextSlide, 4000);
