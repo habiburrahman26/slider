@@ -45,5 +45,15 @@ btnRight.addEventListener('click', function () {
 });
 
 btnLeft.addEventListener('click', function () {
-  
+  if (currentSlide === 0) {
+    currentSlide = allImg.length - 1;
+  } else {
+    currentSlide--;
+  }
+
+  allImg.forEach((el) => {
+    el.classList.remove('active');
+  });
+
+  allImg[currentSlide].classList.add('active');
 });
