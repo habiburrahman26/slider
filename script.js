@@ -5,26 +5,6 @@ const btnRight = document.querySelector('.btn-right');
 const img = document.querySelector('#currImg');
 const dots = document.querySelector('.dots');
 
-// const imgs = [
-//   'img/avenue-2215317_1280.jpg',
-//   'img/mountains-100367_1920.jpg',
-//   'img/nature-g492b774d4_1280.jpg',
-//   'img/night-3078326_1280.jpg',
-//   'img/sunset-1373171_1920.jpg',
-// ];
-
-// const tick = () => {
-//   if (currentSlide === imgs.length - 1) {
-//     currentSlide = 0;
-//   } else {
-//     currentSlide++;
-//   }
-//   img.setAttribute('src', imgs[currentSlide]);
-// };
-
-// setInterval(tick, 3000);
-// tick();
-
 let currentSlide = 0;
 let timer;
 
@@ -40,7 +20,6 @@ const createDots = function () {
     dots.insertAdjacentHTML('beforeend', html);
   });
 };
-createDots();
 
 const activeDots = function (slide) {
   document
@@ -51,7 +30,6 @@ const activeDots = function (slide) {
     .querySelector(`.dots__dot[data-slide="${slide}"]`)
     .classList.add('dots__dot--active');
 };
-activeDots(0);
 
 // toggle class
 const toggoleClass = function (slide = 0) {
@@ -66,7 +44,11 @@ const goToSlide = function (slide = 0) {
   toggoleClass(slide);
 };
 
-goToSlide();
+// clear timer and reset
+function clearTimer() {
+  clearInterval(timer);
+  timer = setInterval(nextSlide, 5000);
+}
 
 //nextSlide
 const nextSlide = function () {
@@ -78,10 +60,7 @@ const nextSlide = function () {
 
   toggoleClass(currentSlide);
   activeDots(currentSlide);
-
-  // clear timer and reset
-  clearInterval(timer);
-  timer = setInterval(nextSlide, 5000);
+  clearTimer();
 };
 
 //prevSlide
@@ -94,11 +73,16 @@ const prevSlide = function () {
 
   toggoleClass(currentSlide);
   activeDots(currentSlide);
-
-  // clear timer and reset
-  clearInterval(timer);
-  timer = setInterval(nextSlide, 5000);
+  clearTimer();
 };
+
+// init
+const init = () => {
+  goToSlide();
+  createDots();
+  activeDots(0);
+};
+init();
 
 timer = setInterval(nextSlide, 5000);
 
@@ -110,9 +94,6 @@ dots.addEventListener('click', function (e) {
     const slide = e.target.dataset.slide;
     goToSlide(slide);
     activeDots(slide);
-
-    // clear timer and reset
-    clearInterval(timer);
-    timer = setInterval(nextSlide, 5000);
+    clearTimer();
   }
 });
