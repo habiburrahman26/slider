@@ -1,6 +1,7 @@
 'use strict';
+
 const btnLeft = document.querySelector('.btn-left');
-const btnRight = document.querySelector('.btn-left');
+const btnRight = document.querySelector('.btn-right');
 const img = document.querySelector('#currImg');
 
 // const imgs = [
@@ -11,7 +12,6 @@ const img = document.querySelector('#currImg');
 //   'img/sunset-1373171_1920.jpg',
 // ];
 
-let currentSlide = 0;
 // const tick = () => {
 //   if (currentSlide === imgs.length - 1) {
 //     currentSlide = 0;
@@ -23,6 +23,27 @@ let currentSlide = 0;
 
 // setInterval(tick, 3000);
 // tick();
-btnLeft.addEventListener('click', function () {
 
+let currentSlide = 0;
+
+const allImg = document.querySelectorAll('.img');
+
+allImg[0].classList.add('active');
+
+btnRight.addEventListener('click', function () {
+  if (currentSlide === allImg.length - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+
+  allImg.forEach((el) => {
+    el.classList.remove('active');
+  });
+
+  allImg[currentSlide].classList.add('active');
+});
+
+btnLeft.addEventListener('click', function () {
+  
 });
