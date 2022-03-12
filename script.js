@@ -26,6 +26,7 @@ const dots = document.querySelector('.dots');
 // tick();
 
 let currentSlide = 0;
+let timer;
 
 const allImg = document.querySelectorAll('.img');
 allImg[0].classList.add('active');
@@ -53,14 +54,21 @@ const activeDots = function (slide) {
 activeDots(0);
 
 // toggle class
-const toggoleClass = function () {
+const toggoleClass = function (slide = 0) {
   allImg.forEach((el) => {
     el.classList.remove('active');
   });
 
-  allImg[currentSlide].classList.add('active');
+  allImg[slide].classList.add('active');
 };
 
+const goToSlide = function (slide = 0) {
+  toggoleClass(slide);
+};
+
+goToSlide();
+
+//nextSlide
 const nextSlide = function () {
   if (currentSlide === allImg.length - 1) {
     currentSlide = 0;
@@ -68,10 +76,15 @@ const nextSlide = function () {
     currentSlide++;
   }
 
-  toggoleClass();
+  toggoleClass(currentSlide);
   activeDots(currentSlide);
+
+  // clear timer and reset
+  clearInterval(timer);
+  timer = setInterval(nextSlide, 5000);
 };
 
+//prevSlide
 const prevSlide = function () {
   if (currentSlide === 0) {
     currentSlide = allImg.length - 1;
@@ -79,11 +92,27 @@ const prevSlide = function () {
     currentSlide--;
   }
 
-  toggoleClass();
+  toggoleClass(currentSlide);
   activeDots(currentSlide);
+
+  // clear timer and reset
+  clearInterval(timer);
+  timer = setInterval(nextSlide, 5000);
 };
 
-setInterval(nextSlide, 4000);
+timer = setInterval(nextSlide, 5000);
 
 btnRight.addEventListener('click', nextSlide);
 btnLeft.addEventListener('click', prevSlide);
+
+dots.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    const slide = e.target.dataset.slide;
+    goToSlide(slide);
+    activeDots(slide);
+
+    // clear timer and reset
+    clearInterval(timer);
+    timer = setInterval(nextSlide, 5000);
+  }
+});
